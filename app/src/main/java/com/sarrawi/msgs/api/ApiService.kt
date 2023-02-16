@@ -1,18 +1,27 @@
 package com.sarrawi.msgs.api
 
-import com.sarrawi.msgs.helper.Constants
-import com.sarrawi.msgs.models.MsgsTypesModel
+
+import com.sarrawi.msgs.models.MsgsResponse
 import com.sarrawi.msgs.models.MsgsTypesResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
     @GET("msgtypes_api")
     //sweilem edit
     suspend fun getMsgsTypes_Ser(): Response<MsgsTypesResponse>
+
+    @GET("msgsapi/{ID_Type_id}")
+    suspend fun getMsgs_Ser
+        (@Path("ID_Type_id") ID_Type_id:Int
+    ):Response<MsgsResponse>
+
+
 
     companion object {
         var retrofitService: ApiService? = null

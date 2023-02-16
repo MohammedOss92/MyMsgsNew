@@ -5,13 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.sarrawi.msgs.databinding.MsgstypeslayoutadapterBinding
+import com.sarrawi.msgs.databinding.MsgstypeslayoutBinding
 import com.sarrawi.msgs.models.MsgsTypesModel
 
 class MsgsTypes_Adapter : RecyclerView.Adapter<MsgsTypes_Adapter.MyViewHolder>() {
 
-    inner class MyViewHolder(val binding: MsgstypeslayoutadapterBinding) :
-        RecyclerView.ViewHolder(binding.root)
+//    var onItemClick: ((Int,String) -> Unit)? = null
+    var onItemClick: ((Int) -> Unit)? = null
+
+    inner class MyViewHolder(val binding : MsgstypeslayoutBinding) : RecyclerView.ViewHolder(binding.root){
+
+        init {
+            binding.root.setOnClickListener {
+//                onItemClick?.invoke(msgsTypesModel[layoutPosition].id,msgsTypesModel[layoutPosition].MsgTypes!!)
+                onItemClick?.invoke(msgsTypesModel[layoutPosition].id)
+
+            }
+        }
+
+    }
 
     private val diffCallback = object : DiffUtil.ItemCallback<MsgsTypesModel>(){
         override fun areItemsTheSame(oldItem: MsgsTypesModel, newItem: MsgsTypesModel): Boolean {
@@ -26,6 +38,7 @@ class MsgsTypes_Adapter : RecyclerView.Adapter<MsgsTypes_Adapter.MyViewHolder>()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
+
     var msgsTypesModel: List<MsgsTypesModel>
         get() = differ.currentList
         set(value) {
@@ -33,11 +46,7 @@ class MsgsTypes_Adapter : RecyclerView.Adapter<MsgsTypes_Adapter.MyViewHolder>()
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(
-            MsgstypeslayoutadapterBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        )
+        return MyViewHolder(MsgstypeslayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -47,9 +56,12 @@ class MsgsTypes_Adapter : RecyclerView.Adapter<MsgsTypes_Adapter.MyViewHolder>()
             newmsg.text = current_msgsTypesModel.new_msg.toString()
         }
 
+
+
+        
     }
 
     override fun getItemCount(): Int {
-       return msgsTypesModel.size
+        return msgsTypesModel.size
     }
 }
